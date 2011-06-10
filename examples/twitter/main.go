@@ -66,7 +66,7 @@ func credentials(req *web.Request, key string) (*oauth.Credentials, os.Error) {
 // login redirects the user to the Twitter authorization page.
 func login(req *web.Request) {
 	callback := req.URL.Scheme + "://" + req.URL.Host + "/callback"
-	temporaryCredentials, err := oauthClient.RequestTemporaryCredentials(callback)
+	temporaryCredentials, err := oauthClient.RequestTemporaryCredentials(http.DefaultClient, callback)
 	if err != nil {
 		req.Error(web.StatusInternalServerError, err)
 		return
@@ -91,7 +91,7 @@ func authCallback(req *web.Request) {
 		req.Error(web.StatusNotFound, os.NewError("main: token mismatch"))
 		return
 	}
-	tokenCredentials, _, err := oauthClient.RequestToken(temporaryCredentials, req.Param.Get("oauth_verifier"))
+	tokenCredentials, _, err := oauthClient.RequestToken(http.DefaultClient, temporaryCredentials, req.Param.Get("oauth_verifier"))
 	if err != nil {
 		req.Error(web.StatusNotFound, err)
 		return

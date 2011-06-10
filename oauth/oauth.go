@@ -212,24 +212,25 @@ type Credentials struct {
 }
 
 // SignParam adds an OAuth signature to param.
-func (c *Client) SignParam(credentials *Credentials, method, url string, param web.Values) {
-	param.Set("oauth_consumer_key", c.Credentials.Token)
-	param.Set("oauth_signature_method", "HMAC-SHA1")
-	param.Set("oauth_timestamp", strconv.Itoa64(time.Seconds()))
-	param.Set("oauth_nonce", nonce())
-	param.Set("oauth_version", "1.0")
+func (c *Client) SignParam(credentials *Credentials, method, url string, param map[string][]string) {
+	p := web.Values(param)
+	p.Set("oauth_consumer_key", c.Credentials.Token)
+	p.Set("oauth_signature_method", "HMAC-SHA1")
+	p.Set("oauth_timestamp", strconv.Itoa64(time.Seconds()))
+	p.Set("oauth_nonce", nonce())
+	p.Set("oauth_version", "1.0")
 	if c.Scope != "" {
-		param.Set("scope", c.Scope)
+		p.Set("scope", c.Scope)
 	}
 	if credentials != nil {
-		param.Set("oauth_token", credentials.Token)
+		p.Set("oauth_token", credentials.Token)
 	}
-	param.Set("oauth_signature", signature(&c.Credentials, credentials, method, url, param))
+	p.Set("oauth_signature", signature(&c.Credentials, credentials, method, url, param))
 }
 
-func (c *Client) request(credentials *Credentials, url string, param web.Values) (*Credentials, web.Values, os.Error) {
+func (c *Client) request(client *http.Client, credentials *Credentials, url string, param web.Values) (*Credentials, web.Values, os.Error) {
 	c.SignParam(credentials, "POST", url, param)
-	resp, err := http.PostForm(url, param.StringMap())
+	resp, err := http.Post(url, "application/x-www-form-urlencoded", bytes.NewBuffer(param.FormEncodedBytes()))
 	if err != nil {
 		return nil, nil, err
 	}
@@ -257,22 +258,22 @@ func (c *Client) request(credentials *Credentials, url string, param web.Values)
 }
 
 // RequestTemporaryCredentials requests temporary credentials from the server.
-func (c *Client) RequestTemporaryCredentials(callbackURL string) (*Credentials, os.Error) {
+func (c *Client) RequestTemporaryCredentials(client *http.Client, callbackURL string) (*Credentials, os.Error) {
 	m := make(web.Values)
 	if callbackURL != "" {
 		m.Set("oauth_callback", callbackURL)
 	}
-	credentials, _, err := c.request(nil, c.TemporaryCredentialRequestURI, m)
+	credentials, _, err := c.request(client, nil, c.TemporaryCredentialRequestURI, m)
 	return credentials, err
 }
 
 // RequestToken requests token credentials from the server. 
-func (c *Client) RequestToken(temporaryCredentials *Credentials, verifier string) (*Credentials, map[string]string, os.Error) {
+func (c *Client) RequestToken(client *http.Client, temporaryCredentials *Credentials, verifier string) (*Credentials, map[string]string, os.Error) {
 	m := make(web.Values)
 	if verifier != "" {
 		m.Set("oauth_verifier", verifier)
 	}
-	credentials, m, err := c.request(temporaryCredentials, c.TokenRequestURI, m)
+	credentials, m, err := c.request(client, temporaryCredentials, c.TokenRequestURI, m)
 	if err != nil {
 		return nil, nil, err
 	}
