@@ -12,8 +12,8 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-// The web package defines the application programming interface to a web
-// server and implements functionality common to many web applications.
+// Package web defines Twister's application programming interface for web
+// applications and implements functionality common to many web applications.
 package web
 
 import (

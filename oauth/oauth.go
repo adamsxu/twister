@@ -12,8 +12,8 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-// The oauth package implements a subset of the client interface to OAuth as
-// defined in RFC 5849.
+// Package oauth implements a subset of the client interface to OAuth
+// as defined in RFC 5849.
 package oauth
 
 import (

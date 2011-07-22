@@ -12,9 +12,7 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-// The ppprof package serves runtime profile data in the format used by the
-// pprof tool (http://code.google.com/p/google-perftools/). A copy of the pprof
-// tool is included in the Go distribution as the gopprof command.
+// Package pprof implements Twister request handlers for the pprof tool.
 // 
 // The application should wrap the ServeWeb function in this package with
 // appropriate access control and register the resulting handler for a path

@@ -12,7 +12,7 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-// The expvar package provides an interface for registering and publishing
+// Package expvar implements a Twister handler for registering and publishing
 // objects as JSON over HTTP. This is useful for publishing counters and other
 // operational data for monitoring tools.
 // 

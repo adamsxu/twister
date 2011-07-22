@@ -12,7 +12,7 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-// The server package implements the HTTP protocol for a web server.
+// Package server implements Twister's HTTP server.
 package server
 
 import (
