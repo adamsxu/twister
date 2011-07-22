@@ -27,7 +27,7 @@ func (h routeTestHandler) ServeWeb(req *Request) {
 	for key, _ := range req.Param {
 		keys = append(keys, key)
 	}
-	sort.Strings(keys)
+	sort.SortStrings(keys)
 	w.Write([]byte(string(h)))
 	for _, key := range keys {
 		w.Write([]byte(" "))
