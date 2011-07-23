@@ -12,5 +12,5 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-// Twister is fast, modular and lightweight framework for building applications.
+// Twister is fast, modular and lightweight framework for building web applications.
 package twister
