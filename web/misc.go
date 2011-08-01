@@ -408,7 +408,6 @@ func HTMLEscapeString(s string) string {
 	return b.String()
 }
 
-
 // CheckXSRF implements cross-site request forgery protection. Here's how it works:
 // 
 // CheckXSRF sets a cookie with name cookieName to a random token.

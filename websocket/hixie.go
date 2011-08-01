@@ -26,6 +26,12 @@ import (
 	"strings"
 )
 
+const (
+	headerSecWebSocketKey1     = "Sec-Websocket-Key1"
+	headerSecWebSocketKey2     = "Sec-Websocket-Key2"
+	headerSecWebSocketProtocol = "Sec-Websocket-Protocol"
+)
+
 type Conn struct {
 	conn    net.Conn
 	br      *bufio.Reader
@@ -132,13 +138,13 @@ func Upgrade(req *web.Request, readBufSize, writeBufSize int, header web.Header)
 		return nil, os.NewError("twister.websocket: upgrade header missing or wrong value")
 	}
 
-	key1, err := webSocketKey(req, web.HeaderSecWebSocketKey1)
+	key1, err := webSocketKey(req, headerSecWebSocketKey1)
 	if err != nil {
 		req.Respond(web.StatusBadRequest)
 		return nil, err
 	}
 
-	key2, err := webSocketKey(req, web.HeaderSecWebSocketKey2)
+	key2, err := webSocketKey(req, headerSecWebSocketKey2)
 	if err != nil {
 		req.Respond(web.StatusBadRequest)
 		return nil, err
@@ -187,7 +193,7 @@ func Upgrade(req *web.Request, readBufSize, writeBufSize int, header web.Header)
 
 	// TODO: handle tls
 	location := "ws://" + req.URL.Host + req.URL.RawPath
-	protocol := req.Header.Get(web.HeaderSecWebSocketProtocol)
+	protocol := req.Header.Get(headerSecWebSocketProtocol)
 
 	h := make(web.Header)
 	for k, v := range header {

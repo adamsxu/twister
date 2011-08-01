@@ -66,6 +66,7 @@ Status: {status} {message}
 <tr><th align="left" valign="top">URL</th><td>{URL}</td></tr>
 <tr><th align="left" valign="top">ProtocolVersion</th><td>{ProtocolVersion}</td></tr>
 <tr><th align="left" valign="top">Param</th><td>{Param}</td></tr>
+<tr><th align="left" valign="top">URLParam</th><td>{URLParam}</td></tr>
 <tr><th align="left" valign="top">ContentType</th><td>{ContentType}</td></tr>
 <tr><th align="left" valign="top">ContentLength</th><td>{ContentLength}</td></tr>
 <tr><th align="left" valign="top">Header</th><td>{Header}</td></tr>

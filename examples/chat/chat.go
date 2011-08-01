@@ -13,7 +13,6 @@ type subscription struct {
 	subscribe bool
 }
 
-
 var (
 	messageChan      = make(chan []byte)
 	chatTempl        *template.Template
@@ -81,7 +80,6 @@ func main() {
 			Register("/", "GET", chatFrameHandler).
 			Register("/ws", "GET", chatWsHandler))
 }
-
 
 const chatStr = `
 <html>

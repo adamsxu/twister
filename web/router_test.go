@@ -24,7 +24,7 @@ type routeTestHandler string
 func (h routeTestHandler) ServeWeb(req *Request) {
 	w := req.Respond(StatusOK)
 	var keys []string
-	for key, _ := range req.Param {
+	for key, _ := range req.URLParam {
 		keys = append(keys, key)
 	}
 	sort.SortStrings(keys)
@@ -33,7 +33,7 @@ func (h routeTestHandler) ServeWeb(req *Request) {
 		w.Write([]byte(" "))
 		w.Write([]byte(key))
 		w.Write([]byte(":"))
-		w.Write([]byte(req.Param.Get(key)))
+		w.Write([]byte(req.URLParam[key]))
 	}
 }
 

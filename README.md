@@ -1,8 +1,15 @@
 Twister
 =======
 
-Twister is a lightweight framework for building modular web applications in
-the [Go](http://golang.org/) programming language. 
+Twister is fast, modular and lightweight framework for building applications
+in the [Go](http://golang.org/) programming language. 
+
+What's in the Box?
+------------------
+
+* Routing: Request to handler mapping with using regular expressions.
+* Utilities: Static file server, file uploads, cookies, form data, headers and other HTTP metadata.
+* Server: Production quality HTTP server and and adaptor for Google App Engine.
 
 Hello, world
 ------------

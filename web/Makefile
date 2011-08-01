@@ -18,6 +18,7 @@ TARG=github.com/garyburd/twister/web
 GOFILES=\
     misc.go\
     web.go\
+    fs.go\
     headermap.go\
     parammap.go\
     handlers.go\

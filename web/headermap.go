@@ -244,24 +244,15 @@ func (m Header) ParseHttpHeader(br *bufio.Reader) (err os.Error) {
 	headerCount := 0
 
 	for {
-		p, err := br.ReadSlice('\n')
-		if err != nil {
-			if err == bufio.ErrBufferFull {
-				err = ErrLineTooLong
-			} else if err == os.EOF {
-				err = io.ErrUnexpectedEOF
-			}
-			return err
-		}
-
-		// remove line terminator
-		if len(p) >= 2 && p[len(p)-2] == '\r' {
-			// \r\n
-			p = p[0 : len(p)-2]
-		} else {
-			// \n
-			p = p[0 : len(p)-1]
-		}
+        p, isPrefix, err := br.ReadLine()
+        switch {
+        case err == os.EOF:
+            return io.ErrUnexpectedEOF
+        case err != nil:
+            return err
+        case isPrefix:
+            return ErrLineTooLong
+        }
 
 		// End of headers?
 		if len(p) == 0 {
@@ -391,9 +382,6 @@ const (
 	HeaderRange                = "Range"
 	HeaderReferer              = "Referer"
 	HeaderRetryAfter           = "Retry-After"
-	HeaderSecWebSocketKey1     = "Sec-Websocket-Key1"
-	HeaderSecWebSocketKey2     = "Sec-Websocket-Key2"
-	HeaderSecWebSocketProtocol = "Sec-Websocket-Protocol"
 	HeaderServer               = "Server"
 	HeaderSetCookie            = "Set-Cookie"
 	HeaderTE                   = "Te"

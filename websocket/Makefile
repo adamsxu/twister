@@ -16,6 +16,6 @@ include $(GOROOT)/src/Make.inc
 
 TARG=github.com/garyburd/twister/websocket
 GOFILES=\
-    websocket.go\
+    hixie.go\
 
 include $(GOROOT)/src/Make.pkg

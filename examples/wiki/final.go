@@ -31,7 +31,7 @@ func loadPage(title string) (*page, os.Error) {
 }
 
 func viewHandler(req *web.Request) {
-	title := req.Param.Get("title")
+	title := req.URLParam["title"]
 	p, err := loadPage(title)
 	if err != nil {
 		req.Redirect("/edit/"+title, false)

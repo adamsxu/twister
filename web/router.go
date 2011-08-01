@@ -149,8 +149,8 @@ func addSlash(req *Request) {
 	req.Redirect(path, true)
 }
 
-// Given the path component of the request URL and the request method, find
-// the handler and path parameters.
+// find the handler and path parameters given the path component of the request
+// URL and the request method.
 func (router *Router) find(path string, method string) (Handler, []string, []string) {
 	for _, r := range router.routes {
 		values := r.regexp.FindStringSubmatch(path)
@@ -187,8 +187,11 @@ func (router *Router) find(path string, method string) (Handler, []string, []str
 // ServeWeb dispatches the request to a registered handler.
 func (router *Router) ServeWeb(req *Request) {
 	handler, names, values := router.find(req.URL.Path, req.Method)
+	if req.URLParam == nil {
+		req.URLParam = make(map[string]string, len(values))
+	}
 	for i := 0; i < len(names); i++ {
-		req.Param.Set(names[i], values[i])
+		req.URLParam[names[i]] = values[i]
 	}
 	handler.ServeWeb(req)
 }
@@ -253,8 +256,11 @@ func (router *HostRouter) find(host string) (Handler, []string, []string) {
 func (router *HostRouter) ServeWeb(req *Request) {
 	host := strings.ToLower(req.URL.Host)
 	handler, names, values := router.find(host)
+	if req.URLParam == nil {
+		req.URLParam = make(map[string]string, len(values))
+	}
 	for i := 0; i < len(names); i++ {
-		req.Param.Set(names[i], values[i])
+		req.URLParam[names[i]] = values[i]
 	}
 	handler.ServeWeb(req)
 }

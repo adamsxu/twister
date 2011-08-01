@@ -25,12 +25,12 @@ var testEtag = computeTestEtag()
 var testContentLength = computeTestContentLength()
 
 func computeTestEtag() string {
-	info, _ := os.Stat("handlers_test.go")
+	info, _ := os.Stat("fs_test.go")
 	return QuoteHeaderValue(strconv.Itob64(info.Mtime_ns, 36))
 }
 
 func computeTestContentLength() string {
-	info, _ := os.Stat("handlers_test.go")
+	info, _ := os.Stat("fs_test.go")
 	return strconv.Itoa64(info.Size)
 }
 
@@ -122,7 +122,7 @@ func TestFileHandler(t *testing.T) {
 			url = "http://example.com/"
 		}
 
-		fh := FileHandler("handlers_test.go", tt.options)
+		fh := FileHandler("fs_test.go", tt.options)
 		status, header, body := RunHandler(url, tt.method, tt.requestHeader, nil, fh)
 
 		if status != tt.status {
