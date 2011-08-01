@@ -249,7 +249,7 @@ var errVerificationFailure = os.NewError("verification failed")
 // VerifyValue extracts a value from a string created by SignValue. An error is
 // returned if the expiration time has elapsed or the signature is not correct.
 func VerifyValue(secret, context string, signedValue string) (string, os.Error) {
-	a := strings.Split(signedValue, "~", 3)
+	a := strings.SplitN(signedValue, "~", 3)
 	if len(a) != 3 {
 		return "", errVerificationFailure
 	}
